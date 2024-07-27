@@ -1,0 +1,111 @@
+COMO RESOLVER
+
+Produto de Matrizes: Desenvolva um programa que realiza o produto de duas matrizes e exibe o resultado.
+
+1° passo: Identificar as variáveis
+
+Lendo o enunciado sabemos que, vamos multiplicar 2 MATRIZES, e vamos ter como resultado OUTRA MATRIZ, essas são as variáveis que conseguimos obter apenas lendo o enunciado, e conforme formos resolvendo encontramos as outras variáveis não tão óbvias. Como o enunciado não diz o tipo da matriz, vamos considerar que são números inteiros.
+
+Para definir uma matriz usamos "matriz[quantidade de linhas][quantidade de colunas]", e nesse caso temos 3 matrizes, vamos definir elas desse modo:
+
+int matA[3][2], matB[2][3], matC[3][3];
+
+Para multiplicar matrizes é OBRIGATÓRIO que o número de colunas da matriz A seja igual ao número de linhas da matriz B, e a matriz C, que é a resultando vai ter o número de colunas da matriz B e o número de linhas da Matriz A.
+
+2° passo: Encontrar uma forma de RESOLVER
+
+O método para multiplicar duas é usando a fórmula matemática, melhor explicado abaixo:
+
+Considere a Matriz A 3X2:
+
+0 2
+4 6
+8 10
+
+Considere a Matriz B 2X3:
+
+1 3 5
+7 9 11
+
+Vamos pegar a primeira linha(A) e multiplicar pela primeira coluna(B), e somar os resultados:
+
+0 * 1 + 2 * 7 = 14
+
+Agora a mesma coisa mas com a segunda coluna(B):
+
+0 * 3 + 2 * 9 = 18
+
+E a terceira coluna(B):
+
+0 * 5 + 2 * 11 = 22
+
+E repetimos o processo com as demais linhas da matriz A, a matriz C no final vai ficar:
+
+14	 18	 22
+46	 66	 86
+78	114	150
+
+3° passo: Implementar a resolução
+
+Vamos analisar o passo a passo matemático e tentar encontrar uma lógica:
+
+- Pegamos todos os itens da primeira linha da Matriz A;
+- Multiplicamos pelos itens da primeira coluna da Matriz B;
+- Somamos os resultados e adicionamos na primeira linha e na primeira coluna da Matriz C;
+- Repetimos esse processo até acabarem as colunas da Matriz B;
+- Pegamos os itens da próxima linha da Matriz A e repetimos até acabarem os itens;
+
+Aqui podemos observar atividades que se repetem, a multiplicação e a soma, se são as mesmas ações mas com valores diferentes, vamos usar laços de repetições.
+Antes de implementarmos o laço vamos pensar qual é o mais adequado, vamos nos fazer a seguinte pergunta:
+
+EU SEI QUANTAS VEZES VAI SE REPETIR? Se sim, vamos usar o "for", se não sabemos, vamos usar o "while", é simples.
+
+Nesse caso sabemos quantas vezes vai se repetir, vai se repetir o número de colunas ou linhas que estamos analisando, é um número fixo, definido antes do laço começar.
+
+Então vamos fazer o primeiro laço, precisamos passar por todas as linhas da Matriz A, então ai está o nosso primeiro laço e a nossa nova variável também, porque cada laço precisar de uma variável para "contar", nesse caso para fins didáticos vou usar "linhaA", que vai representar as linhas da Matriz A.
+
+for (int linhaA = 0; linhaA < 3; linhaA++) {
+
+}
+
+O que podemos identificar nesse laço, ele começa em 0, porque queremos começar da primeira linha da Matriz A, vamos repetir enquanto "linhaA" for menor que 3, que a quantidade de linhas da Matriz A, e no final somamos 1, para ir sempre para a próxima linha.
+
+Mas isso não é o suficiente, como estamos trabalhando com uma matriz precisamos da posição da coluna, e vendo o nosso passo a passo lá em cima, o próximo passo seria multiplicar por cada coluna da Matriz B, então aqui temos o nosso próximo laço, a quantidade de colunas da Matriz B, vamos chamar de colunaB, para fins didáticos.
+
+for (int linhaA = 0; linhaA < 3; linhaA++) {
+    for (int colunaB = 0; colunaB < 3; colunaB++) {
+
+    }
+}
+
+Aqui temos a mesma ideia, e já temos um for dentro do outro, mas por quê?
+
+Vamos observar que temos que multiplicar cada linha da Matriz A, por cada coluna da Matriz B, então primeiro vamos pegar a primeira linha e multiplicar pelas 3 colunas, depois a segunda linha e de novo pelas 3 colunas, e novamente a última linha pelas 3 colunas. Observe que nós multiplicamos por cada coluna da Matriz B, 3 vezes, que é a quantidade de colunas que a Matriz B possui, e nós vamos repetir esse processo para cada linha, ou seja, também 3 vezes, por isso colocamos um for dentro do outro. Pense como uma multiplicação, no final vamos ter feito 9 operações, cada linha, por cada coluna.
+
+Mas isso ainda não é o suficiente, porque as colunas da Matriz B tem mais de 1 linha, e nós precisamos somar esses valores, vamos precisar de mais um laço, e quantas repetições vão ser dessa vez? O número de linhas da Matriz B, porque vamos pegar cada linha da Matriz B e multiplicar pela coluna correspondente na Matriz A, agora começa a complicar para entendermos o que está acontecendo.
+
+for (int linhaA = 0; linhaA < 3; linhaA++) {
+    for (int colunaB = 0; colunaB < 3; colunaB++) {
+        for (int linhaB = 0; linhaB < 2; linhaB++) {
+
+        }
+    }
+}
+
+Agora sim, estamos fazendo todas as operações que precisamos, vamos começar a preencher esses laços com essas informações, vamos precisar também de uma outra variável, dessa vez pra acumular as somas que estamos fazendo, vamos chamar de "acumulador".
+
+for (int linhaA = 0; linhaA < 3; linhaA++) {
+    for (int colunaB = 0; colunaB < 3; colunaB++) {
+        acumulador = 0;
+
+        for (int linhaB = 0; linhaB < 2; linhaB++) {
+            acumulador = acumulador + (matrizA[linhaA][colunaB] * matrizB[linhaB][colunaB]);
+        }
+
+        matrizC[linhaA][colunaB] = acumulador;
+    }
+}
+
+Deixa eu explicar o que estamos fazendo aqui, primeiro temos a nossa variável acumuladora, que calcula a soma dos elementos DAQUELE ITEM, então ele tem que sempre voltar a ser 0, após ser utilizado, porque senão ele vai somar com valores de outras colunas, e não é isso que a gente quer. Depois, dentro do terceiro for, nós somamos a variável acumuladora com ela mesma, porque é uma soma de todas as multiplicações que vamos fazer. E falando sobre as multiplicações, vamos pegar o primeiro item da matriz A e depois o primeiro item da Matriz B, e multiplicar os dois, depois vamos fazer a mesma coisa, só que com a próxima coluna da matriz A, e a próxima linha da matriz B, tente imaginar, ou desenhar as posições sendo alteradas e o que está variando.
+
+E é basicamente isso, assim nós fazemos uma multiplicação entre matrizes.
