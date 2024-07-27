@@ -99,7 +99,7 @@ for (int linhaA = 0; linhaA < 3; linhaA++) {
         acumulador = 0;
 
         for (int linhaB = 0; linhaB < 2; linhaB++) {
-            acumulador = acumulador + (matrizA[linhaA][colunaB] * matrizB[linhaB][colunaB]);
+            acumulador = acumulador + (matrizA[linhaA][linhaB] * matrizB[linhaB][colunaB]);
         }
 
         matrizC[linhaA][colunaB] = acumulador;
